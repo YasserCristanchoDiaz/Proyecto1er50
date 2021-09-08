@@ -39,4 +39,13 @@ public class CurrentAccount extends Account{
     }
 
 
+    @Override
+    public void deposity(double valueDepo) {
+
+    }
+
+    @Override
+    public boolean retirement(double valueR) {
+        return false;
+    }
 }

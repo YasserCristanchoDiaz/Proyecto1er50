@@ -2,7 +2,7 @@ package model;
 
 import java.time.LocalDate;
 
-public abstract class Account {
+public abstract class Account implements ActionsAccount{
     protected String number;
     protected double residue;
     protected LocalDate dateCreation;
@@ -40,4 +40,6 @@ public abstract class Account {
     public void setDateCreation(LocalDate dateCreation) {
         this.dateCreation = dateCreation;
     }
+
+
 }
