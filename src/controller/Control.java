@@ -1,10 +1,7 @@
 package controller;
 
 import exceptions.ValueException;
-import model.Account;
-import model.CurrentAccount;
-import model.ETypeAccount;
-import model.ManagementAccount;
+import model.*;
 import view.View;
 
 import javax.swing.*;
@@ -112,7 +109,14 @@ public class Control {
         try {
             Account account = managementAccount.findAccount(view.readString("Digite el numero de cuenta"));
             String typeAcc = account.getClass().equals(CurrentAccount.class) ? "Cuenta Corriente" : "Cuenta de Ahorro";
-            String dataAcc = "N° de cuenta: " + account.getNumber() + "\nTipo de cuenta: " + typeAcc + "\nSaldo: $" + account.getResidue();
+            String dataAcc = "";
+            if ( dataAcc.equals("Cuenta Corriente") ) {
+                dataAcc = "N° de cuenta: " + ((CurrentAccount)account).getNumber() + "\nTipo de cuenta: " + typeAcc
+                        + "\nSaldo: $" + ((CurrentAccount)account).getResidue() + "\nNumero de cheques" + ((CurrentAccount)account).getCheckBooks().size();
+            } else  {
+                dataAcc = "N° de cuenta: " + ((DepositAccount)account).getNumber() + "\nTipo de cuenta: " + typeAcc
+                        + "\nSaldo: $" + ((DepositAccount)account).getResidue() + "\nInteres: $" + ((DepositAccount)account).calculateInterest();
+            }
             view.showMessage(dataAcc);
         } catch (Exception e){
             view.showMessageErr("Cuenta no registrada");
