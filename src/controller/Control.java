@@ -1,10 +1,7 @@
 package controller;
 
 import exceptions.ValueException;
-import model.Account;
-import model.CurrentAccount;
-import model.ETypeAccount;
-import model.ManagementAccount;
+import model.*;
 import view.View;
 
 import javax.swing.*;
@@ -15,12 +12,14 @@ import java.time.LocalTime;
 public class Control {
     private View view;
     private ManagementAccount managementAccount;
+    private CurrentAccount currentAccount;
     private Validations val;
     private int contAcc;
 
     public Control() {
         view = new View();
         managementAccount = new ManagementAccount();
+        currentAccount = new CurrentAccount();
         val = new Validations();
         contAcc = 0;
     }
@@ -28,6 +27,7 @@ public class Control {
     public void initialMenu() {
         boolean check = true;
         int option = 0;
+        int optionCheck = 0;
         while ( check ) {
             try {
                 option = view.optionMenu();
@@ -45,6 +45,16 @@ public class Control {
                     retirement();
                     break;
                 case 4:
+                    try {
+                        optionCheck = view.menuCheckBook();
+                    } catch (Exception e){
+                        view.showMessageErr("No es válido");
+                    }
+                    if (optionCheck == 1){
+                       addCheckBook();
+                    }else{
+                        findChecks();
+                    }
                     break;
                 case 5:
                     showReports();
@@ -57,12 +67,14 @@ public class Control {
     }
 
     private void handlingAccount() {
-        String options = "[Yes] Agregar cuenta\n[No] Eliminar cuenta\n[Cancel] Consultar cuenta";
+        String options = "Cantidad de cuentas " + managementAccount.getAccounts().size() + "\n El promedio de las cuentas es:" + managementAccount.getAverageAccounts() + " \n [Yes] Agregar cuenta\n[No] Eliminar cuenta\n[Cancel] Consultar cuenta";
+
         switch ( view.confirmDialog( options ) ) {
             case 0:
                 createAccount();
                 break;
             case 1:
+                deleteAccount();
                 break;
             case 2:
                 consultAccount();
@@ -112,7 +124,14 @@ public class Control {
         try {
             Account account = managementAccount.findAccount(view.readString("Digite el numero de cuenta"));
             String typeAcc = account.getClass().equals(CurrentAccount.class) ? "Cuenta Corriente" : "Cuenta de Ahorro";
-            String dataAcc = "N° de cuenta: " + account.getNumber() + "\nTipo de cuenta: " + typeAcc + "\nSaldo: $" + account.getResidue();
+            String dataAcc = "";
+            if ( dataAcc.equals("Cuenta Corriente") ) {
+                dataAcc = "N° de cuenta: " + ((CurrentAccount)account).getNumber() + "\nTipo de cuenta: " + typeAcc
+                        + "\nSaldo: $" + ((CurrentAccount)account).getResidue() + "\nNumero de cheques" + ((CurrentAccount)account).getCheckBooks().size();
+            } else  {
+                dataAcc = "N° de cuenta: " + ((DepositAccount)account).getNumber() + "\nTipo de cuenta: " + typeAcc
+                        + "\nSaldo: $" + ((DepositAccount)account).getResidue() + "\nInteres: $" + ((DepositAccount)account).calculateInterest();
+            }
             view.showMessage(dataAcc);
         } catch (Exception e){
             view.showMessageErr("Cuenta no registrada");
@@ -131,6 +150,29 @@ public class Control {
         } catch (Exception e) {
             view.showMessageErr("Cuenta no registrada");
             handlingAccount();
+        }
+    }
+
+    private void addCheckBook(){
+        try {
+            String id = view.readString("Ingrese el ID del cheque que desea cear");
+            String numberFrom = view.readString("Ingrese el numero de: ");
+            String numberTo = view.readString("Ingrese el numero a: ");
+            managementAccount.addCheckBook(id, numberFrom, numberTo);
+
+        } catch (Exception e) {
+
+        }
+        managementAccount.getCheckBooks().forEach(checks -> System.out.println(checks));
+    }
+
+    private void findChecks() {
+        try {
+            CheckBook checkBook = managementAccount.findCheckBook(view.readString("Digite el ID del cheque"));
+            String dataCheck = "ID de cheque: " + checkBook.getId() + "\nNumero de: " + checkBook.getNumberFrom() + "\nNumero a: " + checkBook.getNumberTo();
+            view.showMessage(dataCheck);
+        } catch (Exception e){
+            view.showMessageErr("Cheque no encontrado");
         }
     }
 
@@ -180,5 +222,7 @@ public class Control {
             view.showMessageErr(e.getMessage());
         }
     }
+
+
 
 }

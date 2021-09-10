@@ -19,7 +19,7 @@ public class View {
     }
 
     public void showMessageErr(String message) {
-        JOptionPane.showMessageDialog(null, message, "error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     public void showMessage(String message) {
@@ -50,4 +50,13 @@ public class View {
         return selec.toString();
     }
 
+    public int menuCheckBook() {
+        int optionCheck = Integer.parseInt(JOptionPane.showInputDialog(null, "Seleccion\n" +
+                "[1] Agregar cheque\n" +
+                "[2] Buscar cheque\n", "Menu para cheques", JOptionPane.QUESTION_MESSAGE));
+
+        if ( optionCheck < 1 || optionCheck > 2 )
+            showMessageErr("Digito invalido");
+        return optionCheck;
+    }
 }

@@ -8,10 +8,12 @@ import java.util.ArrayList;
 public class ManagementAccount {
     private ArrayList<Account> accounts;
     private ArrayList<String> reports;
+    private ArrayList<CheckBook> checkBooks;
 
     public ManagementAccount() {
         accounts = new ArrayList<>();
         reports = new ArrayList<>();
+        checkBooks = new ArrayList<>();
     }
 
     public double deposity( String number, double deposit) throws ValueException {
@@ -67,8 +69,34 @@ public class ManagementAccount {
         return (ArrayList<Account>) accounts.clone();
     }
 
-    public boolean addCheckBook(String number, String numberFrom, String numberTo) {
+    public CheckBook findCheckBook(String id) {
+        for (CheckBook checkBooks1 : checkBooks) {
+            if ( checkBooks1.getId().equals(id) ) {
+                return checkBooks1;
+            }
+        }
+        return null;
+    }
+
+    public boolean findCheckBooks(String id){
+        for (int i = 0; i < checkBooks.size(); i++) {
+            if (checkBooks.get(i).getId().equals(id)){
+                return true;
+            }
+        }
         return false;
+    }
+
+    public boolean addCheckBook(String id, String numberFrom, String numberTo) {
+        if(findCheckBooks(id) == false){
+            checkBooks.add(new CheckBook(id,numberFrom, numberTo));
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<CheckBook> getCheckBooks() {
+        return (ArrayList<CheckBook>) checkBooks.clone();
     }
 
     public double getAverageAccounts() {

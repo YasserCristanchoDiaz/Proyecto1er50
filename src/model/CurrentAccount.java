@@ -16,12 +16,19 @@ public class CurrentAccount extends Account{
     }
 
     // * *
-    public boolean addCheckBook(String id, String numberFrom, String numberTo){
+    public boolean findCheckBook(String id){
         for (int i = 0; i < checkBooks.size(); i++) {
-            if (! checkBooks.get(i).getId().equals(id)){
-                checkBooks.add(new CheckBook(id, numberFrom, numberTo));
+            if (checkBooks.get(i).getId().equals(id)){
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean addCheckBook(String id, String numberFrom, String numberTo){
+        if (findCheckBook(id) == false){
+            checkBooks.add(new CheckBook(id, numberFrom, numberTo));
+            return true;
         }
         return false;
     }
@@ -38,14 +45,20 @@ public class CurrentAccount extends Account{
         this.overdraft = overdraft;
     }
 
-
     @Override
     public void deposity(double valueDepo) {
-
+        double balanceDeposit = getResidue() + valueDepo;
+        setResidue(balanceDeposit);
     }
 
     @Override
     public boolean retirement(double valueR) {
-        return false;
+        double res = getResidue() - (valueR + getOverdraft());
+        if (res <= 0){
+            return false;
+        }else{
+            setResidue(res);
+            return true;
+        }
     }
 }
