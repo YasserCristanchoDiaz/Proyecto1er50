@@ -54,5 +54,4 @@ public class DepositAccount extends Account{
         }
         return false;
     }
-
 }

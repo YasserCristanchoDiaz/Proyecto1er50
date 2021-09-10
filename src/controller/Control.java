@@ -67,7 +67,9 @@ public class Control {
     }
 
     private void handlingAccount() {
-        String options = "Cantidad de cuentas " + managementAccount.getAccounts().size() + "\n El promedio de las cuentas es:" + managementAccount.getAverageAccounts() + " \n [Yes] Agregar cuenta\n[No] Eliminar cuenta\n[Cancel] Consultar cuenta";
+        String options = "Cantidad de cuentas " + managementAccount.getAccounts().size() +
+                "\n El promedio de las cuentas es:" + managementAccount.getAverageAccounts()
+                + " \n [Yes] Agregar cuenta\n[No] Eliminar cuenta\n[Cancel] Consultar cuenta";
 
         switch ( view.confirmDialog( options ) ) {
             case 0:
