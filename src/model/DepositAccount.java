@@ -49,7 +49,8 @@ public class DepositAccount extends Account{
     @Override
     public boolean retirement(double valueR) {
         if ( valueR <= (getResidue() - getMinResidue()) ) {
-            setResidue( (getResidue() - valueR) );
+            double res = getResidue() - valueR;
+            setResidue( res );
             return true;
         }
         return false;

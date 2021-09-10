@@ -32,7 +32,7 @@ public class ManagementAccount {
         if ( !checkR ) {
             throw new ValueException("No es posible retirar, saldo insuficiente");
         } else if ( valueR < 10_000 ) {
-            throw new ValueException("El valor de los retiros deben ser en valores de 10000");
+            throw new ValueException("El valor de los retiros deben ser mayores de $10000");
         } else {
             return checkR;
         }
@@ -78,6 +78,14 @@ public class ManagementAccount {
         return null;
     }
 
+    public String showChecbooks(){
+        String check="| ID  | Cuenta de | Cuenta a |"+"\n";
+        for (int i = 0; i < checkBooks.size(); i++){
+            check+=checkBooks.get(i).getId()+"     |    "+checkBooks.get(i).getNumberFrom()+"   |    "+checkBooks.get(i).getNumberTo()+"    |"+"\n";
+        }
+        return check;
+    }
+
     public boolean findCheckBooks(String id){
         for (int i = 0; i < checkBooks.size(); i++) {
             if (checkBooks.get(i).getId().equals(id)){
@@ -87,12 +95,9 @@ public class ManagementAccount {
         return false;
     }
 
-    public boolean addCheckBook(String id, String numberFrom, String numberTo) {
-        if(findCheckBooks(id) == false){
-            checkBooks.add(new CheckBook(id,numberFrom, numberTo));
-            return true;
-        }
-        return false;
+    public boolean addCheckBook(String number, String numberFrom, String numberTo) {
+        checkBooks.add(new CheckBook(number,numberFrom, numberTo));
+        return true;
     }
 
     public ArrayList<CheckBook> getCheckBooks() {

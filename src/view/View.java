@@ -30,18 +30,18 @@ public class View {
         JOptionPane.showMessageDialog(null, message, "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
 
-    public String readString(String message) {
-        String input = JOptionPane.showInputDialog(null, message, JOptionPane.QUESTION_MESSAGE);
+    public String readString(String message, String title) {
+        String input = JOptionPane.showInputDialog(null, message, title, JOptionPane.QUESTION_MESSAGE);
         return input;
     }
 
-    public double readDouble(String message) {
-        double inputDouble = Double.parseDouble(JOptionPane.showInputDialog(null, message, JOptionPane.QUESTION_MESSAGE));
+    public double readDouble(String message, String title) {
+        double inputDouble = Double.parseDouble(JOptionPane.showInputDialog(null, message, title, JOptionPane.QUESTION_MESSAGE));
         return inputDouble;
     }
 
-    public int confirmDialog(String message) {
-        int conf = JOptionPane.showConfirmDialog(null, message, "",JOptionPane.YES_NO_CANCEL_OPTION ,JOptionPane.QUESTION_MESSAGE);
+    public int confirmDialog(String message, String title) {
+        int conf = JOptionPane.showConfirmDialog(null, message, title,JOptionPane.YES_NO_CANCEL_OPTION ,JOptionPane.QUESTION_MESSAGE);
         return conf;
     }
 

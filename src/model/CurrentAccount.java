@@ -54,7 +54,7 @@ public class CurrentAccount extends Account{
     @Override
     public boolean retirement(double valueR) {
         double res = getResidue() - (valueR + getOverdraft());
-        if (res <= 0){
+        if (res < 0){
             return false;
         }else{
             setResidue(res);
